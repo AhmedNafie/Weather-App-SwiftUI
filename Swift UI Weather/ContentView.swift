@@ -42,7 +42,7 @@ struct ContentView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 180, height: 180)
-                    Text("25 °")
+                    Text("25°")
                         .font(.system(size: 70,weight: .medium))
                         .foregroundColor(.white)
                     Spacer()
@@ -80,7 +80,7 @@ struct DayView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 50, height: 50)
-            Text("\(temperature)" + " °")
+            Text("\(temperature)" + "°")
                 .font(.system(size: 25, weight: .medium))
                 .foregroundColor(.white)
         }
