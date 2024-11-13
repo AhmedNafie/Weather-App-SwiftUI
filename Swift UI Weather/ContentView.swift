@@ -59,6 +59,10 @@ struct ContentView: View {
                     print("Test")
                 } label: {
                     Text("Change Day Time")
+                        .frame(width: 280,height: 50)
+                        .background(.white)
+                        .font(.system(size: 20,weight: .bold))
+                        .cornerRadius(10)
                 }
                 Spacer()
             }
