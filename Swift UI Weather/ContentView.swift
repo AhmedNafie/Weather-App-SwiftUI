@@ -6,23 +6,6 @@
 //
 
 import SwiftUI
-struct Weather: Identifiable {
-    var id = UUID()
-    var day: String
-    var imageName: String
-    var temperature: Int
-}
-
-// Sample data to test
-let sampleWeatherData = [
-    Weather(day: "Tue", imageName: "sun.max.fill", temperature: 25 ),
-    Weather(day: "Wed", imageName: "cloud.fill", temperature: 18),
-    Weather(day: "Thu", imageName: "cloud.rain.fill", temperature: 15 ),
-    Weather(day: "Fri", imageName: "snow", temperature: -5 ),
-    Weather(day: "Sat", imageName: "sun.max.fill", temperature: 25 ),
-    Weather(day: "Sun", imageName: "cloud.fill", temperature: 18),
-    Weather(day: "Mon", imageName: "cloud.rain.fill", temperature: 15 ),
-]
 
 struct ContentView: View {
     var body: some View {
@@ -35,7 +18,9 @@ struct ContentView: View {
                 Spacer()
                 WeatherButton(title: "Change Day Time",
                               textColor: .blue,
-                              backgroundColor: .white)
+                              backgroundColor: .white){
+                    print("test")
+                }
                 Spacer()
             }
         }
@@ -67,6 +52,24 @@ struct DayView: View {
         }
     }
 }
+
+struct Weather: Identifiable {
+    var id = UUID()
+    var day: String
+    var imageName: String
+    var temperature: Int
+}
+
+// Sample data to test
+let sampleWeatherData = [
+    Weather(day: "Tue", imageName: "sun.max.fill", temperature: 25 ),
+    Weather(day: "Wed", imageName: "cloud.fill", temperature: 18),
+    Weather(day: "Thu", imageName: "cloud.rain.fill", temperature: 15 ),
+    Weather(day: "Fri", imageName: "snow", temperature: -5 ),
+    Weather(day: "Sat", imageName: "sun.max.fill", temperature: 25 ),
+    Weather(day: "Sun", imageName: "cloud.fill", temperature: 18),
+    Weather(day: "Mon", imageName: "cloud.rain.fill", temperature: 15 ),
+]
 
 struct BackgroundView: View {
     var topColor: Color
@@ -125,10 +128,11 @@ struct WeatherButton: View {
     var title: String
     var textColor: Color
     var backgroundColor: Color
+    var action:  @MainActor () -> Void
     
     var body: some View {
         Button {
-            print("Test")
+            action()
         } label: {
             Text(title)
                 .frame(width: 280,height: 50)
