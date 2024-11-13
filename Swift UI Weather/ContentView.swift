@@ -45,15 +45,20 @@ struct ContentView: View {
                     Text("25°")
                         .font(.system(size: 70,weight: .medium))
                         .foregroundColor(.white)
-                    Spacer()
-                        .frame(height: 20)
                 }
+                .padding(.bottom, 40)
                 ScrollView(.horizontal, showsIndicators: false){
                     HStack(spacing: 20) {
                         ForEach(sampleWeatherData) { weather in
                             DayView(day: weather.day, image: weather.image, temperature: weather.temperature)
                         }
                     }.padding(20)
+                }
+                Spacer()
+                Button {
+                    print("Test")
+                } label: {
+                    Text("Change Day Time")
                 }
                 Spacer()
             }
