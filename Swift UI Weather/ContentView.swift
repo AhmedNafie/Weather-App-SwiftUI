@@ -12,11 +12,10 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            BackgroundView(topColor: isNight ? .black : .blue,
-                           bottomColor: isNight ? .gray : .lightBlue)
+            BackgroundView(isNight: $isNight)
             VStack {
                 CityTextView(cityName: "Cairo, CA")
-                MainWeatherStatusView(imageName: isNight ? "moon.stars.fill" : "cloud.sun.fill", temperature: 25)
+                MainWeatherStatusView(temperature: 25, isNight: $isNight)
                 WeekDaysView()
                 Spacer()
                 WeatherButton(title: "Change Day Time",
@@ -75,19 +74,19 @@ let sampleWeatherData = [
 ]
 
 struct BackgroundView: View {
-    var topColor: Color
-    var bottomColor: Color
+    @Binding var isNight: Bool
     
     var body: some View {
-        LinearGradient(colors: [topColor, bottomColor],
+        LinearGradient(colors: [isNight ? .black : .blue, isNight ? .gray : .lightBlue],
                        startPoint: .topLeading,
                        endPoint: .bottomTrailing)
         .ignoresSafeArea()
     }
 }
-
+ 
 struct CityTextView: View {
     var cityName: String
+    
     var body: some View {
         Text(cityName)
             .font(.system(size: 32,weight: .medium, design: .default))
@@ -97,12 +96,12 @@ struct CityTextView: View {
 }
 
 struct MainWeatherStatusView: View {
-    var imageName: String
     var temperature: Int
-    
+    @Binding var isNight: Bool
+
     var body: some View {
         VStack(spacing: 10) {
-            Image(systemName: imageName)
+            Image(systemName: isNight ? "moon.stars.fill" : "cloud.sun.fill")
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
