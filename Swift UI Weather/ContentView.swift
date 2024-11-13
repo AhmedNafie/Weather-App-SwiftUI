@@ -9,61 +9,33 @@ import SwiftUI
 struct Weather: Identifiable {
     var id = UUID()
     var day: String
-    var image: String
+    var imageName: String
     var temperature: Int
 }
 
 // Sample data to test
 let sampleWeatherData = [
-    Weather(day: "Tue", image: "sun.max.fill", temperature: 25 ),
-    Weather(day: "Wed", image: "cloud.fill", temperature: 18),
-    Weather(day: "Thu", image: "cloud.rain.fill", temperature: 15 ),
-    Weather(day: "Fri", image: "snow", temperature: -5 ),
-    Weather(day: "Sat", image: "sun.max.fill", temperature: 25 ),
-    Weather(day: "Sun", image: "cloud.fill", temperature: 18),
-    Weather(day: "Mon", image: "cloud.rain.fill", temperature: 15 ),
+    Weather(day: "Tue", imageName: "sun.max.fill", temperature: 25 ),
+    Weather(day: "Wed", imageName: "cloud.fill", temperature: 18),
+    Weather(day: "Thu", imageName: "cloud.rain.fill", temperature: 15 ),
+    Weather(day: "Fri", imageName: "snow", temperature: -5 ),
+    Weather(day: "Sat", imageName: "sun.max.fill", temperature: 25 ),
+    Weather(day: "Sun", imageName: "cloud.fill", temperature: 18),
+    Weather(day: "Mon", imageName: "cloud.rain.fill", temperature: 15 ),
 ]
 
 struct ContentView: View {
     var body: some View {
         ZStack {
-            LinearGradient(colors: [.blue,Color("lightBlue")],
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-            .ignoresSafeArea()
+            BackgroundView(topColor: .blue, bottomColor: .lightBlue)
             VStack {
-                Text("Cairo, CA")
-                    .font(.system(size: 32,weight: .medium, design: .default))
-                    .foregroundColor(.white)
-                    .padding()
-                VStack {
-                    Image(systemName: "cloud.sun.fill")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 180, height: 180)
-                    Text("25°")
-                        .font(.system(size: 70,weight: .medium))
-                        .foregroundColor(.white)
-                }
-                .padding(.bottom, 40)
-                ScrollView(.horizontal, showsIndicators: false){
-                    HStack(spacing: 20) {
-                        ForEach(sampleWeatherData) { weather in
-                            DayView(day: weather.day, image: weather.image, temperature: weather.temperature)
-                        }
-                    }.padding(20)
-                }
+                CityTextView(cityName: "Cairo, CA")
+                MainWeatherStatusView(imageName: "cloud.sun.fill", temperature: 25)
+                WeekDaysView()
                 Spacer()
-                Button {
-                    print("Test")
-                } label: {
-                    Text("Change Day Time")
-                        .frame(width: 280,height: 50)
-                        .background(.white)
-                        .font(.system(size: 20,weight: .bold))
-                        .cornerRadius(10)
-                }
+                WeatherButton(title: "Change Day Time",
+                              textColor: .blue,
+                              backgroundColor: .white)
                 Spacer()
             }
         }
@@ -92,6 +64,78 @@ struct DayView: View {
             Text("\(temperature)" + "°")
                 .font(.system(size: 25, weight: .medium))
                 .foregroundColor(.white)
+        }
+    }
+}
+
+struct BackgroundView: View {
+    var topColor: Color
+    var bottomColor: Color
+    
+    var body: some View {
+        LinearGradient(colors: [topColor, bottomColor],
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+        .ignoresSafeArea()
+    }
+}
+
+struct CityTextView: View {
+    var cityName: String
+    var body: some View {
+        Text(cityName)
+            .font(.system(size: 32,weight: .medium, design: .default))
+            .foregroundColor(.white)
+            .padding()
+    }
+}
+
+struct MainWeatherStatusView: View {
+    var imageName: String
+    var temperature: Int
+    
+    var body: some View {
+        VStack(spacing: 10) {
+            Image(systemName: imageName)
+                .renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 180, height: 180)
+            Text("\(temperature)" + "°")
+                .font(.system(size: 70,weight: .medium))
+                .foregroundColor(.white)
+        }
+        .padding(.bottom, 40)
+    }
+}
+
+struct WeekDaysView: View {
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 20) {
+                ForEach(sampleWeatherData) { weather in
+                    DayView(day: weather.day, image: weather.imageName, temperature: weather.temperature)
+                }
+            }.padding(20)
+        }
+    }
+}
+
+struct WeatherButton: View {
+    var title: String
+    var textColor: Color
+    var backgroundColor: Color
+    
+    var body: some View {
+        Button {
+            print("Test")
+        } label: {
+            Text(title)
+                .frame(width: 280,height: 50)
+                .background(backgroundColor)
+                .foregroundColor(textColor)
+                .font(.system(size: 20,weight: .bold))
+                .cornerRadius(10)
         }
     }
 }
